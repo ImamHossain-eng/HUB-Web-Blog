@@ -1,0 +1,17 @@
+<script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script> 
+ 
+ 
+ //1. $(document).ready(function() {
+
+//     $('.ckeditor').ckeditor();
+
+// });
+
+        //2. $('.ckeditor').ckeditor();
+
+        //3. CKEDITOR.replaceAll( function( textarea, config ) {            
+        // });
+
+        //4. CKEDITOR.replaceAll('.ckeditor');
+
+        //5. CKEDITOR.replaceAll(function (textarea));

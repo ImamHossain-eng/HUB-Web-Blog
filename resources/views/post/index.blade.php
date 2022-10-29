@@ -17,7 +17,7 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    {{-- <th>Serial</th> --}}
+                    <th>Serial</th>
                     <th>Title</th>
                     <th>Status</th>
                     <th>Visit</th>
@@ -27,10 +27,11 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($posts as $post)
+                @forelse($posts as $key => $post)
                     <tr>
+                        <td>{{ $key+1 }}</td>
                         <td>{{ $post->title }}</td>
-                        <td>{{ $post->status }}</td>
+                        <td>@if($post->status == true) Active @else Inactive @endif</td>
                         <td>{{ $post->visit }}</td>
                         <td>
                             {{-- {{ $post->created_at }} --}}
@@ -43,14 +44,26 @@
 
                         </td>
                         <td>{{ $post->updated_at }}</td>
-                        <td>
+                        <td class="d-flex">
+
+                            <a href="/posts/{{ $post->id }}" class="btn btn-primary m-2">
+                                <i class="fa fa-eye"></i>
+                            </a>
+
+                            <a href="/posts/{{ $post->id }}/edit" class="btn btn-success m-2">
+                                <i class="fa fa-check"></i>
+                            </a>
+
                             <form action="{{ route('post.destroy', $post->id) }}" method="POST">
                                 @csrf()
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">X</button>
+                                <button type="submit" class="btn btn-danger m-2">
+                                    <i class="fa fa-trash"></i>
+                                </button>
                             </form>
                         </td>
                     </tr>
+                    
                 @empty 
                     <tr class="table-danger text-center">
                         <td colspan="5">No Post Found</td>
@@ -59,7 +72,7 @@
             </tbody>
         </table>
 
-        {{ $posts->links() }}
+        {{-- {{ $posts->links() }} --}}
 
     </div>
    </div>

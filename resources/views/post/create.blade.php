@@ -22,7 +22,9 @@
             </div>
     
             <div class="form-group mb-3">
-                <input type="text" name="body" class="form-control" placeholder="Enter Post Body">
+                <label for="body">Enter Content of the Post</label>
+                {{-- <input type="text" name="body" class="form-control" placeholder="Enter Post Body"> --}}
+                <textarea name="body" class="form-control ckeditor"></textarea>
             </div>
     
             <input type="submit" value="Save Post" class="btn btn-primary w-100">

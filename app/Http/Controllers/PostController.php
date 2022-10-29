@@ -21,7 +21,13 @@ class PostController extends Controller
         // $posts = Post::oldest()->get();
         //todo: 3-4 way  
 
-        $posts = Post::latest()->paginate(4);
+        // $posts = Post::latest()->paginate(4);
+
+
+        $posts = Post::all();
+
+        // return $posts;
+
 
         return view('post.index', compact('posts'));
         
@@ -67,5 +73,37 @@ class PostController extends Controller
         Post::find($id)->delete();
 
         return redirect()->route('post.index');
+    }
+    public function show ($id) {
+        $post = Post::find($id);
+
+        $post->visit = $post->visit + 1;
+
+        $post->save();
+
+        return view('post.show', compact('post'));
+    }
+    public function edit ($id) {
+        $post = Post::find($id);
+        return view('post.edit', compact('post'));
+    }
+    public function update (Request $request, $id) {
+        $this->validate($request, [
+            // 'title' => 'required|string|max:191|min:10',
+            // 'title' => ['required', 'string', 'max:191', 'min:100'],
+            'title' => 'required',    
+            'body' => 'required'
+        ]);
+
+        $post = Post::find($id);
+
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
+        $post->status = $request->input('status');
+
+        $post->save();
+
+        return redirect()->route('post.index');
+
     }
 }
