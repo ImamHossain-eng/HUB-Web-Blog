@@ -8,7 +8,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
-                    <strong>Title: </strong> {{ $post->title }} <br>
+                    <img src="{{ asset('images/post/'.$post->image) }}" class="img img-thumbnails" alt="">
                     <strong>Status: </strong> 
                         @if($post->status == true) 
                             Active 
@@ -20,6 +20,7 @@
                     <strong>Inserted: </strong> {{ $post->created_at }} <br>
                 </div>
                 <div class="col-md-8">
+                    <strong>Title: </strong> {{ $post->title }} <br>
                     <strong>Content</strong> <br>
                     {!! $post->body !!}                    
                 </div>

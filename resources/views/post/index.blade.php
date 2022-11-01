@@ -3,6 +3,8 @@
     List of All Posts 
 @endsection
 @section('content') 
+    
+
    <div class="card mt-3">
     <div class="card-header bg-success text-light">
         <h3 class="text-center">
@@ -10,6 +12,7 @@
         </h3>
         
     </div>
+  
     <div class="card-body">
 
         <a href="/posts/create" title="Create new Post" class="btn btn-primary mb-4">Add New Post</a>

@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Models\Post;
 
+use Str, Image;
+
+
+
 class PostController extends Controller
 {
     public function index () {
@@ -24,7 +28,7 @@ class PostController extends Controller
         // $posts = Post::latest()->paginate(4);
 
 
-        $posts = Post::all();
+        $posts = Post::latest()->get();
 
         // return $posts;
 
@@ -40,20 +44,43 @@ class PostController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'body' => 'required'
+            // 'image' => 'required|mimes:jpg,png|max:2048'
         ]);
 
-        //Initiate new object
-        // $post = new Post;
+        //check if image exist with our request
+        if($request->hasFile('image')) {
+            //todo
+            $file = $request->file('image');
 
-        //assign value to the initiated object
-        // $post->title = $request->title;
-        // $post->body = $request->body;
-        // $post->title = $request->input('title');
-        // $post->body = $request->input('body');
-        // $post->visit = 0;
+            $ext = $file->getClientOriginalExtension();
+            $fileName = Str::random(25).'.'.$ext;
 
-        //save the object to the DB
-        // $post->save();
+            //Move file to specific folder : Default option of Laravel for file Upload
+            // $file->move(public_path('images/post'), $fileName);
+            
+            Image::make($file)->resize(400, 400)->save(public_path('images/post/'.$fileName));
+
+ 
+             //Move file to specific folder
+            //  $request->file('image')->move(public_path('images/post'), Str::random(25).'.'.$request->file('image')->getClientOriginalExtension());
+            
+
+        } else {
+            $fileName = 'no_image.png';
+        }
+
+        // Initiate new object 
+        $post = new Post;
+
+        // assign value to the initiated object 
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
+        $post->visit = 0;
+        $post->image = $fileName;
+        // save the object to the DB
+        $post->save();
 
         // Post::create([
         //     'title' => $request->title,
@@ -61,9 +88,9 @@ class PostController extends Controller
         //     'visit' => 0
         // ]);
 
-        Post::create($request->all());
+        // Post::create($request->all());
 
-        return redirect()->route('post.index');
+        return redirect()->route('post.index')->with('success', 'Successfully Inserted');
 
     }
     public function destroy ($id) {
@@ -72,7 +99,7 @@ class PostController extends Controller
 
         Post::find($id)->delete();
 
-        return redirect()->route('post.index');
+        return redirect()->route('post.index')->with('error', 'Successfully Removed');
     }
     public function show ($id) {
         $post = Post::find($id);
@@ -103,7 +130,7 @@ class PostController extends Controller
 
         $post->save();
 
-        return redirect()->route('post.index');
+        return redirect()->route('post.index')->with('warning', 'Successfully Updated');
 
     }
 }
