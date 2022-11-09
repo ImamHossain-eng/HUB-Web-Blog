@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Post;
 
-use Str, Image;
+use Str, Image, File;
 
 
 
@@ -123,10 +123,27 @@ class PostController extends Controller
         ]);
 
         $post = Post::find($id);
+        $oldImg = $post->image;
+
+        //check if image exist with our request
+        if($request->hasFile('image')) {
+            //Image Saving activities
+            $file = $request->file('image');
+            $ext = $file->getClientOriginalExtension();
+            $fileName = Str::random(25).'.'.$ext;            
+            Image::make($file)->resize(400, 400)->save(public_path('images/post/'.$fileName)); 
+            //Delete the old image
+            if($oldImg != 'no_image.png') {
+                File::delete(public_path('images/post/'.$oldImg));
+            }
+        } else {
+            $fileName = $oldImg;
+        }
 
         $post->title = $request->input('title');
         $post->body = $request->input('body');
         $post->status = $request->input('status');
+        $post->image = $fileName;
 
         $post->save();
 

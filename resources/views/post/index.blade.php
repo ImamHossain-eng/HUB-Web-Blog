@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.app')
 @section('title') 
     List of All Posts 
 @endsection
@@ -15,7 +15,7 @@
   
     <div class="card-body">
 
-        <a href="/posts/create" title="Create new Post" class="btn btn-primary mb-4">Add New Post</a>
+        <a href="/home/posts/create" title="Create new Post" class="btn btn-primary mb-4">Add New Post</a>
 
         <table class="table table-striped table-hover">
             <thead>
@@ -69,7 +69,7 @@
                     
                 @empty 
                     <tr class="table-danger text-center">
-                        <td colspan="5">No Post Found</td>
+                        <td colspan="7">No Post Found</td>
                     </tr>
                 @endforelse
             </tbody>

@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.app')
 @section('title') 
     Editing an Existing Post
 @endsection
@@ -13,7 +13,7 @@
     <div class="card-body">
 
        <div class="container">
-        <form action="{{ route('post.update', $post->id) }}" method="POST">
+        <form action="{{ route('post.update', $post->id) }}" method="POST" enctype="multipart/form-data">
 
             @csrf()  
             
@@ -21,6 +21,12 @@
 
             <div class="form-group mb-3">
                 <input type="text" name="title" value="{{ $post->title }}" class="form-control" placeholder="Enter Post Title">
+            </div>
+
+
+            <div class="form-group mb-3">
+                <label for="image">Select an Image:</label>
+                <input type="file" name="image" class="form-control">
             </div>
 
             <div class="form-group mb-3">
